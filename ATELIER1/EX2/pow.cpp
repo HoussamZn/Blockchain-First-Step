@@ -6,19 +6,14 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include "sha256.h"
+
 
 using namespace std;
 using steady_clock = chrono::steady_clock;
 
-string to_hex_size_t(size_t x) {
-    stringstream ss;
-    ss << hex << setw(sizeof(size_t) * 2) << setfill('0') << x;
-    return ss.str();
-}
-
 string hash_string(const string &data) {
-    size_t h = std::hash<string>{}(data);
-    return to_hex_size_t(h);
+    return sha256(data);
 }
 
 struct Block {

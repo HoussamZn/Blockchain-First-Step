@@ -1,21 +1,13 @@
-#include <iomanip>
 #include <iostream>
 #include <vector>
+#include "sha256.h"
 
 using namespace std;
 
-string to_hex_size_t(size_t x) {
-    stringstream ss;
-    ss << hex << setw(sizeof(size_t) * 2) << setfill('0') << x;
-    return ss.str();
-}
-
 string hash_string(const string &data) {
-    size_t h = std::hash<string>{}(data);
-    return to_hex_size_t(h);
+    return sha256(data);
 }
 
-// Noeud de l'arbre
 struct Node {
     string hash;
     Node *left = nullptr;
@@ -67,7 +59,7 @@ class MerkleTree {
             root = nullptr;
             return;
         }
-
+        
         vector<Node *> leaves;
         leaves.reserve(leaves_data.size());
         for (const auto &d : leaves_data) {

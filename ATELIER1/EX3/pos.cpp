@@ -5,19 +5,14 @@
 #include <iomanip>
 #include <chrono>
 #include <random>
+#include "sha256.h"
+
 
 using namespace std;
 using namespace std::chrono;
 
-string to_hex_size_t(size_t x) {
-    stringstream ss;
-    ss << hex << setw(sizeof(size_t) * 2) << setfill('0') << x;
-    return ss.str();
-}
-
 string hash_string(const string &data) {
-    size_t h = std::hash<string>{}(data);
-    return to_hex_size_t(h);
+    return sha256(data);
 }
 
 struct Block {
@@ -98,7 +93,7 @@ int main() {
         {"hhhahh", 60.0}
     };
 
-    int difficulty = 4;
+    int difficulty = 5;
 
     cout << "\n========== Proof of Work ==========\n";
     Block powBlock(1, "Transaction Data (PoW)", chain.chain.back().hash);
