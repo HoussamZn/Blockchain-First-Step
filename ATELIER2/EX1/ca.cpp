@@ -14,8 +14,8 @@ vector<int> evolve(const vector<int>& current, int rule_number) {
     int n = current.size();
     vector<int> next(n, 0);
 
-    vector<int> rule(16);
-    for (int i = 0; i < rule.size(); ++i)
+    vector<int> rule(8);
+    for (int i = 0; i < 8; ++i)
         rule[i] = (rule_number >> i) & 1;
 
     for (int i = 0; i < n; ++i) {
@@ -39,7 +39,7 @@ void print_state(const vector<int>& state) {
 }
 
 int main() {
-    string initial_bits = "0000000001000000000";
+    string initial_bits = "00000000001000000000";
     vector<int> state = init_state(initial_bits);
 
     int rule_number = 30;
@@ -47,7 +47,7 @@ int main() {
     cout << "1D cellular automaton - Rule " << rule_number << endl;
     print_state(state);
 
-    for (int t = 0; t < 100; ++t) {
+    for (int t = 0; t < 20; ++t) {
         state = evolve(state, rule_number);
         print_state(state);
     }
