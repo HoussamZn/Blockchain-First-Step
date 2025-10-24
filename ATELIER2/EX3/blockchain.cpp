@@ -6,7 +6,7 @@
 #include <chrono>
 #include <random>
 #include <thread>
-#include "sha256.h"
+#include "../sha256.h"
 #include "../EX2/ca_hash.h"
 
 using namespace std;
@@ -153,10 +153,13 @@ string select_validator(const vector<Validator>& validators) {
 
 // --------------------- Blockchain ---------------------
 class Blockchain {
+private:
+    string hash_mode;
+    int pow_difficulty;
 public:
     vector<Block> chain;
 
-    Blockchain(string hash_mode = "AC") {
+    Blockchain(string hash_mode = "AC",int pow_difficulty=3): hash_mode(hash_mode),pow_difficulty(pow_difficulty) {
         vector<Transaction> genesis_tx = { {0, "genesis", "genesis", 0.0} };
         chain.emplace_back(0, "0", genesis_tx,hash_mode);
     }
@@ -166,6 +169,19 @@ public:
     void add_block(Block new_block) {
         new_block.prev_hash = latest().hash;
         chain.push_back(new_block);
+    }
+
+    void add_block_pow(vector<Transaction> txs){
+        Block pow_block(chain.size(), latest().hash, txs,hash_mode);
+        pow_block.mine_block(pow_difficulty);
+        chain.push_back(pow_block);
+    }
+
+    void add_block_pos(vector<Transaction> txs,vector<Validator> validators){
+        Block pow_block(chain.size(), latest().hash, txs,hash_mode);        
+        string chosen_validator = select_validator(validators);
+        cout << "Validator chosen: " << chosen_validator << endl;
+        chain.push_back(pow_block);
     }
 
     bool validate_chain() const {
@@ -179,7 +195,11 @@ public:
 
 // --------------------- Main ---------------------
 int main() {
-    Blockchain blockchain("SHA256");
+    string HASH_MODE = "AC";
+    int POW_DIFFICULTY = 2;
+    Blockchain blockchain(HASH_MODE,POW_DIFFICULTY);
+    cout << "Using " << HASH_MODE << "\n";
+
 
     vector<Validator> validators = {
         {"Alice", 50.0},
@@ -199,13 +219,8 @@ int main() {
     };
 
     cout << "\n========== Mining with PoW ==========\n";
-    Block pow_block1(1, blockchain.latest().hash, txs1);
-    pow_block1.mine_block(2);
-    blockchain.add_block(pow_block1);
-
-    Block pow_block2(2, blockchain.latest().hash, txs2);
-    pow_block2.mine_block(2);
-    blockchain.add_block(pow_block2);
+    blockchain.add_block_pow(txs1);
+    blockchain.add_block_pow(txs2);
 
     cout << "\nChain valid: " << (blockchain.validate_chain() ? "YES" : "NO") << "\n";
 
@@ -213,12 +228,9 @@ int main() {
     vector<Transaction> txs_pos = {
         {6, "Charlie", "Bob", 10.0}
     };
-    Block pos_block(3, blockchain.latest().hash, txs_pos);
-    string chosen_validator = select_validator(validators);
-    cout << "Validator chosen: " << chosen_validator << "\n";
-    pos_block.hash = pos_block.compute_hash();
-    blockchain.add_block(pos_block);
 
+    blockchain.add_block_pos(txs_pos,validators);
+    
     cout << "\nChain valid: " << (blockchain.validate_chain() ? "YES" : "NO") << "\n";
 
     return 0;
