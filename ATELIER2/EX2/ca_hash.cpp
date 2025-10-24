@@ -4,6 +4,8 @@
 #include <sstream>
 #include <iomanip>
 #include <cstdint>
+#include "ca_hash.h"
+
 using namespace std;
 
 string text_to_bits(const string& input) {
@@ -52,7 +54,7 @@ string bits_to_hex(const vector<int>& bits) {
     return ss.str();
 }
 
-string ac_hash(const string& input, uint32_t rule, size_t steps,size_t CHUNK_SIZE=256) {
+string ac_hash(const string& input, uint32_t rule, size_t steps,size_t CHUNK_SIZE) {
     // const size_t CHUNK_SIZE = 64;
     string bits = text_to_bits(input);
 
@@ -75,25 +77,4 @@ string ac_hash(const string& input, uint32_t rule, size_t steps,size_t CHUNK_SIZ
     }
 
     return bits_to_hex(digest);
-}
-
-int main() {
-    string input1 = "Hello TESt long text test hello pass 256 qzdikhikqnzkdj,n";
-    string input2 = "Houssam";
-    string input3 = "HoussaM";
-
-
-    uint32_t rule = 30;
-    size_t steps = 256;
-
-    string hash1 = ac_hash(input1, rule, steps);
-    string hash2 = ac_hash(input2, rule, steps);
-    string hash3 = ac_hash(input3, rule, steps);
-
-    cout << "Rule: " << rule << ", Steps: " << steps << endl;
-    cout << "Input1: " << input1 << " Hash: " << hash1 << endl;
-    cout << "Input2: " << input2 << " Hash: " << hash2 << endl;
-    cout << "Input3: " << input3 << " Hash: " << hash3 << endl;
-
-    return 0;
 }
