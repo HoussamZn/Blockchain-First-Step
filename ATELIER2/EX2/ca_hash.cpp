@@ -78,3 +78,5 @@ string ac_hash(const string& input, uint32_t rule, size_t steps,size_t CHUNK_SIZ
 
     return bits_to_hex(digest);
 }
+
+
