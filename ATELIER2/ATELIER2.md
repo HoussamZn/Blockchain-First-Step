@@ -63,9 +63,9 @@ HoussaM : 366f9e62be4ca235e4d1d33fe156bab13f6ea12d948d151ee3989c27c2dc105d
 # Exercice 4
 _Tableau des résultats :_
 |  Method   | Avg Iterations | Total Time (s) | Avg Time/Block (s) |
-| --------- |:--------------:| -------------- |:------------------:|
+| :---------: |:--------------:| :--------------: |:------------------:|
 |AC         |196             |11.7701         |1.17701             |
-|SHA256     |321             |0.0308711       |0.00308711          |
+|SHA256     |321             |0.03087      |0.00308         |
 
 # Exercice 5
 J’ai utilisé `1011110100101010101011110101011` et `1011110100101000101011110101011` qui ne diffèrent que d’un seul bit, au niveau du 15ᵉ bit.
@@ -79,7 +79,7 @@ La distribution est équilibrée : pour une entrée de _10⁵_ bits, j’ai obte
 _Tableau des résultats :_
 
 |  Rule   | Time (s) | Ones percentage | Difference percentage in one bit difference inputs |
-| --------- |:--------------:| :--------------: |:------------------:|
+| :---------: |:--------------:| :--------------: |:------------------:|
 |30         |0.697236             |48.44%         |56.25%             |
 |90     |0.623147             |0.00%       |0.00%          |
 |110     |0.507385             |58.59%        |32.03%          |
