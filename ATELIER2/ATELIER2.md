@@ -79,7 +79,7 @@ La distribution est équilibrée : pour une entrée de _10⁵_ bits, j’ai obte
 _Tableau des résultats :_
 
 |  Rule   | Time (s) | Ones percentage | Difference percentage in one bit difference inputs |
-| --------- |:--------------:| -------------- |:------------------:|
+| --------- |:--------------:| :--------------: |:------------------:|
 |30         |0.697236             |48.44%         |56.25%             |
 |90     |0.623147             |0.00%       |0.00%          |
 |110     |0.507385             |58.59%        |32.03%          |
